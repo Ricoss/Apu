@@ -1,0 +1,11 @@
+Xaomi <-read.csv('Xaomi.csv')
+data <- Xaomi[-c(1,7,10)]
+df1 <- na.omit(data)
+library(mlr)
+data[,'ocena_klienta']<-factor(data[,'ocena_klienta'])
+task = makeClassifTask(id="Ocena",data=df1[3:7],target = "ocena_klienta")
+lrns <- makeLearners(c("lda","rpart", "C50","rFerns","randomForestSRC"), type = "classif")
+porownanie <- benchmark(learners = lrns,tasks = task,resampling = cv5)
+plotBMRBoxplots(porownanie)
+plotBMRRanksAsBarChart(porownanie, pos = "stack")
+savehistory("C:/Users/Ricoss/Desktop/R/Git/Lab5/Lab5.2/5.Rhistory")
